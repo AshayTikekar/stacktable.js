@@ -17,13 +17,13 @@
         defaults = {headIndex:0},
         settings = $.extend({}, defaults, options),
         headIndex;
-
+		
     // checking the "headIndex" option presence... or defaults it to 0
     if(options && options.headIndex)
       headIndex = options.headIndex;
     else
       headIndex = 0;
-
+  
     return $tables.each(function() {
       var $table = $(this);
       if ($table.hasClass('stacktable')) {
@@ -55,8 +55,14 @@
         $(this).find('td,th').each(function(cellIndex) {
           if ($(this).html() !== ''){
             bodyMarkup += '<tr class="' + tr_class +'">';
-            if ($topRow.find('td,th').eq(cellIndex).html()){
-              bodyMarkup += '<td class="st-key">'+$topRow.find('td,th').eq(cellIndex).html()+'</td>';
+            if ($topRow.find('td,th').eq(cellIndex)){
+				if($topRow.find('td,th').eq(cellIndex).attr('colspan')){
+						bodyMarkup += '<td class="st-key" rowspan="'+$topRow.find('td,th').eq(cellIndex).attr('colspan')+'">'+$topRow.find('td,th').eq(cellIndex).html()+'</td>';
+				}else{
+						if($topRow.find('td,th').eq(cellIndex).html()){
+							bodyMarkup += '<td class="st-key">'+$topRow.find('td,th').eq(cellIndex).html()+'</td>';
+						}	
+					}		
             } else {
               bodyMarkup += '<td class="st-key"></td>';
             }
